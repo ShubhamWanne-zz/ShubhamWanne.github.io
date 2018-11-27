@@ -63,7 +63,7 @@ export class OperationComponent implements OnInit {
   };
 
   getRepoDetails = async function(){
-    var api_call = await fetch(this.userDetails.repos_url);
+    var api_call = await fetch(`${this.userDetails.repos_url}?client_id=${this.CLIENT_ID}&client_secret=${this.CLIENT_SECRET}`);
     var data = await api_call.json();
     return { data };
   }
