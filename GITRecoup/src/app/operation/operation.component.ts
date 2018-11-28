@@ -18,6 +18,8 @@ export class OperationComponent implements OnInit {
   company:string;
   userDetails:any;
   repoData: any[];
+  followers: any[];
+  followersDetails = new Map();
   constructor() { }
 
   ngOnInit() {
@@ -45,7 +47,21 @@ export class OperationComponent implements OnInit {
       })
     }
   };
-
+  fetchFollowers = function(){
+      this.getFollowers().then((res)=>{
+        this.followers = res.data;
+        for(let follower of this.followers){
+          this.getUser(follower.login).then((res)=>{
+            this.followersDetails.set(follower.login,res.data);
+          },(err)=>{
+            console.log("User not found "+err);
+          })
+        }
+      },(err)=>{
+        console.error(err);
+      });
+  }
+ 
   fetchRepo = function(){
       this.isShowRepositories = true;
       this.getRepoDetails().then((res)=>{
@@ -68,6 +84,11 @@ export class OperationComponent implements OnInit {
     return { data };
   }
 
+  getFollowers = async function(){
+    var api_call = await fetch(`${this.userDetails.followers_url}?client_id=${this.CLIENT_ID}&client_secret=${this.CLIENT_SECRET}`)
+    var data = await api_call.json();
+    return { data }; 
+  }
 
 
 
