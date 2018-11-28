@@ -21,8 +21,8 @@
                 <h1 class="display-4">{{userName}}</h1>
                 <p class="mb-0" *ngIf="userDetails.bio != null">{{userDetails.bio}}</p>
             </div>
-            <div class="col sm-4">
-                <img [src]="userDetails.avatar_url" alt="User Image" class="rounded float-right" height=100 width=120>
+            <div class="col sm-4 align-self-start">
+                <img [src]="userDetails.avatar_url" alt="User Image" class="rounded-circle float-right img-fluid z-depth-1" height=120 width=130>
             </div>
         </div>
         <br />
@@ -101,16 +101,24 @@
                 <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
                     <span aria-hidden="true" class="white-text">×</span>
                 </button>
-                <h4 class="modal-title w-100 white-text" id="myModalLabel">Followers of 
+                <h5 class="modal-title w-100 white-text" id="myModalLabel">Followers of 
                     <strong>{{userName}}</strong>
-                </h4>
+                </h5>
             </div>
             <div class="modal-body">
                 <div class="text-center">
                     <i class="fa fa-github-alt fa-4x mb-3 animated rotateIn"></i>
                 </div>
+                <div  *ngIf="userDetails != null && userDetails.followers > 0">
+                    <p class>
+                    <i class="fa fa-heart fa-lg blue-text"></i>
+                    Followers: 
+                    {{userDetails.followers}}
+                </p>
+                </div>
                 <ul class="list-group" *ngIf="userDetails != null && userDetails.followers > 0">
                     <li *ngFor="let follower of followers" class="list-group-item d-flex justify-content-between align-items-center">
+                        <img [src]="follower.avatar_url" alt="Responsive Image" class="rounded-circle" height=50 width=50>
                         <a [href]="follower.html_url" target="_blank">
                         {{follower.login}}
                         </a>
